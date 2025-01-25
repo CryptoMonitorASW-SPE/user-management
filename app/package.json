@@ -1,0 +1,38 @@
+{
+    "name": "template-for-project-ts",
+    "version": "1.0.0",
+    "description": "A template for TS project.",
+    "main": "dist/index.js",
+    "scripts": {
+        "start": "node dist/index.js",
+        "build": "tsc",
+        "dev": "nodemon src/index.ts",
+        "test": "mocha -r ts-node/register 'src/test/**/*.test.ts'",
+        "test:watch": "mocha -r ts-node/register --watch 'src/test/**/*.test.ts'",
+        "test:report": "mkdir -p reports && mocha -r ts-node/register 'src/test/**/*.test.ts' --reporter spec > reports/test-report.txt"
+    },
+    "author": "CryptoMonitor",
+    "dependencies": {
+        "@types/express": "^5.0.0",
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.5",
+        "express": "^4.21.2",
+        "reflect-metadata": "^0.2.2",
+        "socket.io": "^4.8.1",
+        "tsyringe": "^4.8.0",
+        "typescript": "^5.7.3"
+    },
+    "engines": {
+        "node": "22.13.1"
+    },
+    "devDependencies": {
+        "@types/chai": "^5.0.1",
+        "@types/mocha": "^10.0.10",
+        "@types/supertest": "^6.0.2",
+        "chai": "^5.1.2",
+        "mocha": "^11.1.0",
+        "nodemon": "^3.0.1",
+        "supertest": "^7.0.0",
+        "ts-node": "^10.9.2"
+    }
+}

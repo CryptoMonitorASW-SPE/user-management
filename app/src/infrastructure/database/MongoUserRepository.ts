@@ -14,7 +14,7 @@ import { TransactionType } from '../../domain/model/wallet/TransactionType'
 export class MongoUserRepository implements UserRepositoryPort {
   ready: Promise<void>
   constructor() {
-    const uri = 'mongodb://localhost:27017/dbsa'
+    const uri = 'mongodb://mongodb:27017/dbsa'
     this.ready = mongoose
       .connect(uri, { serverSelectionTimeoutMS: 5000 })
       .then(() => {

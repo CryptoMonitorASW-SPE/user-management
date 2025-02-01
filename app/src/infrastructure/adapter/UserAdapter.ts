@@ -1,21 +1,15 @@
 import { injectable, inject } from 'tsyringe'
-import { Router, Request, Response, NextFunction } from 'express'
+import { Router, Request, Response } from 'express'
 import { UserServicePort } from '../../domain/port/UserServicePort'
-import { AuthServicePort } from '../../domain/port/AuthServicePort'
+import { AuthServicePort, AuthenticatedRequest } from '../../domain/port/AuthServicePort'
 import { Error as MongooseError } from 'mongoose'
-
-interface AuthenticatedRequest extends Request {
-  userId: string
-}
+import { authenticate } from '../middleware/AuthMiddleware'
 
 @injectable()
 export class UserAdapter {
   private router: Router
 
-  constructor(
-    @inject('UserServicePort') private userService: UserServicePort,
-    @inject('AuthService') private authService: AuthServicePort
-  ) {
+  constructor(@inject('UserServicePort') private userService: UserServicePort) {
     this.router = Router()
   }
 
@@ -27,39 +21,14 @@ export class UserAdapter {
     this.router.post('/users', this.createUser)
 
     // Retrieve the authenticated user's profile
-    this.router.get('/users/profile', this.authenticate, this.getProfile)
+    this.router.get('/users/profile', authenticate, this.getProfile)
 
     // Update the authenticated user's profile
-    this.router.put('/users/profile', this.authenticate, this.updateProfile)
+    this.router.put('/users/profile', authenticate, this.updateProfile)
   }
 
   public getRouter(): Router {
     return this.router
-  }
-
-  /**
-   * Middleware to handle authentication using authToken from HTTP-only cookies.
-   */
-  private authenticate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      console.log('authenticate')
-      const authToken = req.cookies.authToken
-      if (!authToken) {
-        res.status(401).json({ error: 'Unauthorized: No auth token provided.' })
-        return
-      }
-
-      const validated = await this.authService.validateToken(authToken)
-      if (validated) {
-        ;(req as AuthenticatedRequest).userId = validated.userId
-        next()
-      } else {
-        res.status(401).json({ error: 'Unauthorized: Invalid auth token.' })
-      }
-    } catch (error) {
-      console.error('Authentication error:', error)
-      res.status(500).json({ error: 'Internal Server Error' })
-    }
   }
 
   /**

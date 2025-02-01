@@ -12,6 +12,10 @@ import { AuthServiceImpl } from './infrastructure/adapter/AuthServiceImpl'
 import { UserManagementService } from './application/UserManagementService'
 import { MongoUserRepository } from './infrastructure/database/MongoUserRepository'
 import { UserAdapter } from './infrastructure/adapter/UserAdapter'
+import { WalletServicePort } from './domain/port/WalletServicePort'
+import { WatchlistServicePort } from './domain/port/WatchlistServicePort'
+import { WalletAdapter } from './infrastructure/adapter/WalletAdapter'
+import { WatchlistAdapter } from './infrastructure/adapter/WatchlistAdapter'
 
 // Load environment variables
 dotenv.config({ path: resolve(__dirname, '../../../../.env') })
@@ -40,16 +44,24 @@ container.registerSingleton<AuthServicePort>('AuthService', AuthServiceImpl)
 
 // Register UserServicePort with AppService
 container.registerSingleton<UserServicePort>('UserServicePort', UserManagementService)
+container.registerSingleton<WalletServicePort>('WalletServicePort', UserManagementService)
+container.registerSingleton<WatchlistServicePort>('WatchlistServicePort', UserManagementService)
 
 // Register UserRepositoryPort with MongoUserRepository
 container.registerSingleton('UserRepositoryPort', MongoUserRepository)
 
 // Resolve and initialize UserAdapter
 const userAdapter = container.resolve(UserAdapter)
+const walletAdapter = container.resolve(WalletAdapter)
+const watchlistAdapter = container.resolve(WatchlistAdapter)
 userAdapter.initialize()
+walletAdapter.initialize()
+watchlistAdapter.initialize()
 
 // Mount adapters' routers
 app.use('/', userAdapter.getRouter())
+app.use('/', walletAdapter.getRouter())
+app.use('/', watchlistAdapter.getRouter())
 
 // Start server after all initializations
 server.listen(3000, () => {

@@ -25,6 +25,8 @@ RUN npm run build
 # ================================================
 FROM node:22.13-alpine AS build-final
 
+RUN apk update && apk upgrade
+RUN apk --no-cache add curl
 # Set working directory
 WORKDIR /usr/src/app
 

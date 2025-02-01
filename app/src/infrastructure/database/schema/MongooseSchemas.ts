@@ -25,7 +25,8 @@ const TransactionSchema = new Schema<TransactionDocument>(
     cryptoId: { type: String, required: true },
     quantity: { type: Number, required: true, min: 0.00000001 },
     type: { type: String, enum: ['BUY', 'SELL'], required: true },
-    addedAt: { type: Date, required: true }
+    doneAt: { type: Date, required: true },
+    priceAtPurchase: { type: Number, required: true, min: 0 }
   },
   { _id: false }
 )
@@ -75,4 +76,8 @@ const UserSchema = new Schema<UserDocument>(
 )
 
 // Create and export the User Model
-export const UserModel: Model<UserDocument> = mongoose.model<UserDocument>('User', UserSchema)
+export const UserModel: Model<UserDocument> = mongoose.model<UserDocument>(
+  'User',
+  UserSchema,
+  'User'
+)

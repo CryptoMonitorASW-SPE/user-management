@@ -48,7 +48,8 @@ export class MongoUserRepository implements UserRepositoryPort {
           cryptoId: string
           quantity: number
           type: string
-          addedAt: Date
+          doneAt: Date
+          priceAtPurchase: number
         }[]
       }
       watchlist: {
@@ -73,7 +74,8 @@ export class MongoUserRepository implements UserRepositoryPort {
           cryptoId: tx.cryptoId,
           quantity: tx.quantity,
           type: tx.type,
-          addedAt: tx.addedAt
+          doneAt: tx.doneAt,
+          priceAtPurchase: tx.priceAtPurchase
         }))
       },
       watchlist: {
@@ -129,7 +131,8 @@ export class MongoUserRepository implements UserRepositoryPort {
             cryptoId: string
             quantity: number
             type: string
-            addedAt: Date
+            doneAt: Date
+            priceAtPurchase: number
           }) => this.mapTransaction(tx)
         )
       )
@@ -157,14 +160,16 @@ export class MongoUserRepository implements UserRepositoryPort {
     cryptoId: string
     quantity: number
     type: string
-    addedAt: Date
+    doneAt: Date
+    priceAtPurchase: number
   }): Transaction {
     return new Transaction(
       tx.transactionId,
       tx.cryptoId,
       tx.quantity,
       TransactionType[tx.type as keyof typeof TransactionType],
-      new Date(tx.addedAt)
+      new Date(tx.doneAt),
+      tx.priceAtPurchase
     )
   }
 
@@ -239,7 +244,8 @@ export class MongoUserRepository implements UserRepositoryPort {
               cryptoId: transaction.cryptoId,
               quantity: transaction.quantity,
               type: transaction.type,
-              addedAt: transaction.addedAt
+              doneAt: transaction.doneAt,
+              priceAtPurchase: transaction.priceAtPurchase
             }
           }
         },

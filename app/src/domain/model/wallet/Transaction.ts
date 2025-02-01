@@ -1,13 +1,19 @@
+import { v4 as uuidv4 } from 'uuid'
 import { TransactionType } from './TransactionType'
 
 export class Transaction {
+  public transactionId: string
+
   constructor(
-    public transactionId: string,
+    transactionId: string | undefined,
     public cryptoId: string,
     public quantity: number,
     public type: TransactionType,
-    public addedAt: Date
-  ) {}
+    public doneAt: Date,
+    public priceAtPurchase: number
+  ) {
+    this.transactionId = transactionId ? transactionId : uuidv4()
+  }
 
   toJSON() {
     return {
@@ -15,7 +21,8 @@ export class Transaction {
       cryptoId: this.cryptoId,
       quantity: this.quantity,
       type: this.type,
-      addedAt: this.addedAt.toISOString()
+      doneAt: this.doneAt.toISOString(),
+      priceAtPurchase: this.priceAtPurchase
     }
   }
 }

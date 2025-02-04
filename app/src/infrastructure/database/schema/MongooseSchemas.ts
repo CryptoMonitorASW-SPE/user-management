@@ -26,7 +26,8 @@ const TransactionSchema = new Schema<TransactionDocument>(
     quantity: { type: Number, required: true, min: 0.00000001 },
     type: { type: String, enum: ['BUY', 'SELL'], required: true },
     doneAt: { type: Date, required: true },
-    priceAtPurchase: { type: Number, required: true, min: 0 }
+    priceAtPurchase: { type: Number, required: true, min: 0 },
+    currency: { type: String, required: true, default: 'USD' }
   },
   { _id: false }
 )

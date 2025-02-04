@@ -54,7 +54,7 @@ export class WalletAdapter {
   private addTransaction = async (req: Request, res: Response): Promise<void> => {
     try {
       const userId = (req as AuthenticatedRequest).userId
-      const { cryptoId, quantity, priceAtPurchase, type, doneAt } = req.body
+      const { cryptoId, quantity, priceAtPurchase, type, doneAt, currency } = req.body
 
       await this.walletService.addTransaction({
         userId,
@@ -63,7 +63,8 @@ export class WalletAdapter {
           quantity,
           type,
           doneAt,
-          priceAtPurchase
+          priceAtPurchase,
+          currency
         }
       })
 

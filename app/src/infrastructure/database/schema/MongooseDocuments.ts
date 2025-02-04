@@ -16,6 +16,7 @@ export interface TransactionDocument extends Document {
   readonly type: TransactionType
   readonly doneAt: Date
   readonly priceAtPurchase: number
+  readonly currency: string
 }
 
 // Wallet Document Interface

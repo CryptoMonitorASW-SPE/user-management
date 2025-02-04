@@ -133,6 +133,7 @@ export class MongoUserRepository implements UserRepositoryPort {
             type: string
             doneAt: Date
             priceAtPurchase: number
+            currency: string
           }) => this.mapTransaction(tx)
         )
       )
@@ -162,6 +163,7 @@ export class MongoUserRepository implements UserRepositoryPort {
     type: string
     doneAt: Date
     priceAtPurchase: number
+    currency: string
   }): Transaction {
     return new Transaction(
       tx.transactionId,
@@ -169,7 +171,8 @@ export class MongoUserRepository implements UserRepositoryPort {
       tx.quantity,
       parseTransactionType(tx.type),
       new Date(tx.doneAt),
-      tx.priceAtPurchase
+      tx.priceAtPurchase,
+      tx.currency
     )
   }
 
@@ -245,7 +248,8 @@ export class MongoUserRepository implements UserRepositoryPort {
               quantity: transaction.quantity,
               type: transaction.type,
               doneAt: transaction.doneAt,
-              priceAtPurchase: transaction.priceAtPurchase
+              priceAtPurchase: transaction.priceAtPurchase,
+              currency: transaction.currency
             }
           }
         },

@@ -3,6 +3,7 @@ import { TransactionType } from './TransactionType'
 
 export class Transaction {
   public transactionId: string
+  public currency: string
 
   constructor(
     transactionId: string | undefined,
@@ -10,9 +11,11 @@ export class Transaction {
     public quantity: number,
     public type: TransactionType,
     public doneAt: Date,
-    public priceAtPurchase: number
+    public priceAtPurchase: number,
+    currency?: string
   ) {
     this.transactionId = transactionId ? transactionId : uuidv4()
+    this.currency = currency ? currency.toUpperCase() : 'USD'
   }
 
   toJSON() {
@@ -22,7 +25,8 @@ export class Transaction {
       quantity: this.quantity,
       type: this.type,
       doneAt: this.doneAt.toISOString(),
-      priceAtPurchase: this.priceAtPurchase
+      priceAtPurchase: this.priceAtPurchase,
+      currency: this.currency
     }
   }
 }

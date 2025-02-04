@@ -70,6 +70,7 @@ export class UserManagementService
       type: TransactionType
       doneAt: Date
       priceAtPurchase: number
+      currency: string
     }
   }): Promise<void> {
     try {
@@ -79,7 +80,8 @@ export class UserManagementService
         data.transaction.quantity,
         data.transaction.type,
         data.transaction.doneAt,
-        data.transaction.priceAtPurchase
+        data.transaction.priceAtPurchase,
+        data.transaction.currency
       )
       await this.repository.addTransaction(data.userId, transaction)
     } catch (error) {

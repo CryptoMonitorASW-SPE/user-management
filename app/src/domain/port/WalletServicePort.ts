@@ -9,6 +9,7 @@ export interface WalletServicePort {
       type: TransactionType
       doneAt: Date
       priceAtPurchase: number
+      currency: string
     }
   }): Promise<void>
   removeTransaction(data: { userId: string; transactionId: string }): Promise<void>

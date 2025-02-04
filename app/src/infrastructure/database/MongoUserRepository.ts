@@ -8,7 +8,7 @@ import { Transaction } from '../../domain/model/wallet/Transaction'
 import { WatchlistItem } from '../../domain/model/watchlist/WatchlistItem'
 import { Profile } from '../../domain/model/user/Profile'
 import mongoose from 'mongoose'
-import { TransactionType } from '../../domain/model/wallet/TransactionType'
+import { parseTransactionType } from '../../domain/model/wallet/TransactionType'
 
 @injectable()
 export class MongoUserRepository implements UserRepositoryPort {
@@ -167,7 +167,7 @@ export class MongoUserRepository implements UserRepositoryPort {
       tx.transactionId,
       tx.cryptoId,
       tx.quantity,
-      TransactionType[tx.type as keyof typeof TransactionType],
+      parseTransactionType(tx.type),
       new Date(tx.doneAt),
       tx.priceAtPurchase
     )

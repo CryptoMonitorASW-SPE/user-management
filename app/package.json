@@ -1,7 +1,7 @@
 {
-    "name": "template-for-project-ts",
+    "name": "user-management",
     "version": "1.0.0",
-    "description": "A template for TS project.",
+    "description": "UserManagement service",
     "main": "dist/index.js",
     "scripts": {
         "start": "node dist/index.js",

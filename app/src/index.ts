@@ -27,7 +27,7 @@ if (!jwtKey) {
 }
 
 // Initialize Express app
-const app = express()
+export const app = express()
 app.use(bodyParser.json())
 app.use(cookieParser())
 

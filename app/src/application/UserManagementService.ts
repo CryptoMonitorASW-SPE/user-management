@@ -7,7 +7,7 @@ import { UserRepositoryPort } from '../domain/port/UserRepositoryPort'
 import { Profile } from '../domain/model/user/Profile'
 import { Transaction } from '../domain/model/wallet/Transaction'
 import { WatchlistItem } from '../domain/model/watchlist/WatchlistItem'
-import { TransactionType } from '../domain/model/wallet/TransactionType'
+import { parseTransactionType, TransactionType } from '../domain/model/wallet/TransactionType'
 
 @injectable()
 export class UserManagementService
@@ -67,19 +67,57 @@ export class UserManagementService
     transaction: {
       cryptoId: string
       quantity: number
-      type: TransactionType
-      doneAt: Date
+      type: string // accept a string for runtime validation
+      doneAt: Date | string
       priceAtPurchase: number
       currency: string
     }
   }): Promise<void> {
     try {
+      // Validate cryptoId
+      if (!data.transaction.cryptoId || data.transaction.cryptoId.trim() === '') {
+        throw new Error('Invalid cryptoId')
+      }
+
+      // Validate quantity
+      if (typeof data.transaction.quantity !== 'number' || data.transaction.quantity <= 0) {
+        throw new Error('Invalid quantity')
+      }
+      // Validate transaction type using the helper
+      let transactionType: TransactionType
+      try {
+        transactionType = parseTransactionType(data.transaction.type)
+      } catch {
+        throw new Error('Invalid transaction type')
+      }
+
+      // Validate doneAt date
+      const doneAtDate = new Date(data.transaction.doneAt)
+      if (isNaN(doneAtDate.getTime())) {
+        throw new Error('Invalid doneAt date')
+      }
+
+      // Validate priceAtPurchase
+      if (
+        typeof data.transaction.priceAtPurchase !== 'number' ||
+        data.transaction.priceAtPurchase <= 0
+      ) {
+        throw new Error('Invalid priceAtPurchase')
+      }
+      // Validate currency
+      if (
+        !data.transaction.currency ||
+        typeof data.transaction.currency !== 'string' ||
+        data.transaction.currency.trim() === ''
+      ) {
+        throw new Error('Invalid currency')
+      }
       const transaction = new Transaction(
         undefined,
         data.transaction.cryptoId,
         data.transaction.quantity,
-        data.transaction.type,
-        data.transaction.doneAt,
+        transactionType,
+        doneAtDate,
         data.transaction.priceAtPurchase,
         data.transaction.currency
       )

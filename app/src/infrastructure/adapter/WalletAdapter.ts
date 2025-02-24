@@ -71,7 +71,8 @@ export class WalletAdapter {
       res.status(201).json({ message: 'Transaction added successfully.' })
     } catch (error) {
       console.error('Error adding transaction:', error)
-      res.status(500).json({ error: 'Internal Server Error' })
+
+      res.status(400).json(error)
     }
   }
 

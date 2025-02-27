@@ -98,3 +98,9 @@ tasks.register("allInOne") {
     dependsOn("preRunAll")
     finalizedBy("runDev")
 }
+
+tasks.register<NpmTask>("docs") {
+    dependsOn("npmCiAll")
+    workingDir = file("..")
+    args.set(listOf("run", "docs"))
+}

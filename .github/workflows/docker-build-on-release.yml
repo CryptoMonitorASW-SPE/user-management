@@ -56,15 +56,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Install dependencies (including TypeDoc)
-      - name: Install Dependencies
-        run: npm install
+      # Set up JDK for Gradle
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
 
-      # Generate TypeDoc documentation (according to typedoc.json)
+      # Grant execute permission to gradlew
+      - name: Make Gradlew Executable
+        run: chmod +x ./gradlew
+
+      # Generate TypeDoc documentation (this will also install dependencies via npmCiAll)
       - name: Generate TypeDoc Documentation
-        run: npm run docs
+        run: ./gradlew docs
 
-      # Artifact upload step (our docs folder as configured in typedoc.json)
+      # Artifact upload step
       - name: Upload Documentation Artifact
         uses: actions/upload-artifact@v4
         with:

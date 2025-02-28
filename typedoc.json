@@ -6,6 +6,5 @@
   "entryPointStrategy": "expand",
   "plugin": ["typedoc-material-theme"],
   "themeColor": "#cb9820",
-  "includeVersion": true,
   "exclude": ["./app/src/test"]
 }

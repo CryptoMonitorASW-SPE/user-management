@@ -59,6 +59,16 @@ describe('Watchlist API Integration Tests (Stubbed DB, Real WatchlistService)', 
         .set('Cookie', [`authToken=${invalidToken}`])
         .expect(401)
     })
+
+    it('should fail this test intentionally', async () => {
+      const response = await request(app)
+        .get('/watchlist')
+        .set('Cookie', [`authToken=${validTestToken}`])
+        .expect(200)
+
+      // This assertion will fail because the expected id is intentionally incorrect
+      expect(response.body).to.have.property('id', 'incorrectId')
+    })
   })
 
   describe('POST /watchlist', () => {

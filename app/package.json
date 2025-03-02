@@ -28,7 +28,7 @@
         "uuid": "^11.0.5"
     },
     "engines": {
-        "node": "22.13.1"
+        "node": "22.14"
     },
     "devDependencies": {
         "@types/body-parser": "^1.19.5",

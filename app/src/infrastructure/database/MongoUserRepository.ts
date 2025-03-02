@@ -14,7 +14,10 @@ import { parseTransactionType } from '../../domain/model/wallet/TransactionType'
 export class MongoUserRepository implements UserRepositoryPort {
   ready: Promise<void>
   constructor() {
-    const uri = 'mongodb://mongodb:27017/dbsa'
+    const mongoHost = process.env.MONGODB_HOST || 'mongodb'
+    const mongoPort = process.env.MONGODB_PORT || '27017'
+    const mongoDatabase = process.env.MONGODB_DATABASE || 'dbsa'
+    const uri = `mongodb://${mongoHost}:${mongoPort}/${mongoDatabase}`
     this.ready = mongoose
       .connect(uri, { serverSelectionTimeoutMS: 5000 })
       .then(() => {

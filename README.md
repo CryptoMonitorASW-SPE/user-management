@@ -76,7 +76,7 @@ The server runs on port 3000 by default and exposes the following endpoints:
 
 ## Testing
 
-Unit and integration tests are implemented using Mocha, Chai, Sinon, and Supertest.
+Unit and integration tests are implemented using Mocha, Chai, TSArch, Sinon, and Supertest.
 
 To execute the tests run:
 

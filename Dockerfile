@@ -21,7 +21,7 @@ RUN gradle build
 RUN gradle installProdDependencies
 
 # Stage 2: Runtime image with Node.js
-FROM node:21-alpine AS runtime
+FROM node:22-alpine AS runtime
 WORKDIR /app
 RUN apk add --update --no-cache curl
 
